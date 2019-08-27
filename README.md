@@ -38,3 +38,9 @@ from find_open_restaurants import find_open_restaurants
 
 find_open_restaurants('examples/input1.csv', datetime.now())
 ```
+
+## Run Tests In Docker
+
+```bash
+docker-compose up --build
+```
