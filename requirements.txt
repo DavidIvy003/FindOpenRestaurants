@@ -1,1 +1,2 @@
+dateparser==0.7.1
 pytest==5.1.1
