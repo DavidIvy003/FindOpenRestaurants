@@ -1,7 +1,7 @@
-output_parse_hours_two_hours_sections = {
+output_parse_hours_extra_day = {
   'Mon': {
-    'open': 1130,
-    'close': 2200,
+    'open': 1730,
+    'close': 2300,
   },
   'Tues': {
     'open': 1130,
@@ -17,14 +17,14 @@ output_parse_hours_two_hours_sections = {
   },
   'Fri': {
     'open': 1130,
-    'close': 2300,
+    'close': 2200,
   },
   'Sat': {
-    'open': 1130,
+    'open': 1730,
     'close': 2300,
   },
   'Sun': {
     'open': 1130,
-    'close': 2300,
+    'close': 2200,
   }
 }

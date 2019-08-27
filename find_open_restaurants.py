@@ -1,7 +1,8 @@
+import re
 import csv
 import dateparser
 
-day_order = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+day_order = ['Mon', 'Tues', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 def parse_hours(string):
     open_times = {}
@@ -14,11 +15,15 @@ def parse_hours(string):
 
 def get_affected_days_and_open_times(string):
     open_times = {}
-    first_day = string[:3]
-    if string[3:4] == '-':
-        second_day = string[4:7]
-        time = string[8:]
+    split_string = re.split(r'\W+', string)
+    first_day = split_string[0]
+    if split_string[1] in day_order:
+        second_day = split_string[1]
+        time = string[string.index(second_day) + len(second_day):]
         days = days_between(first_day, second_day)
+        if split_string[2] in day_order:
+            days.append(split_string[2])
+            time = string[string.index(split_string[2]) + len(split_string[2]):]
         open_and_close_times = parse_times(time)
         for day in days:
             open_times[day] = open_and_close_times

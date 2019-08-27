@@ -3,7 +3,7 @@ output_parse_hours_one_day_sections = {
     'open': 1700,
     'close': 30,
   },
-  'Tue': {
+  'Tues': {
     'open': 1700,
     'close': 30,
   },

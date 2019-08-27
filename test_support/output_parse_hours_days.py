@@ -3,7 +3,7 @@ output_parse_hours_days = {
     'open': 1100,
     'close': 2200,
   },
-  'Tue': {
+  'Tues': {
     'open': 1100,
     'close': 2200,
   },

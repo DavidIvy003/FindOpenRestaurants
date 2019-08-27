@@ -4,6 +4,7 @@ from find_open_restaurants import parse_csv, parse_hours, parse_times, days_betw
 from test_support.output_parse_hours_days import output_parse_hours_days
 from test_support.output_parse_hours_two_hours_sections import output_parse_hours_two_hours_sections
 from test_support.output_parse_hours_one_day_sections import output_parse_hours_one_day_sections
+from test_support.output_parse_hours_extra_day import output_parse_hours_extra_day
 
 def test_parse_csv():
     output = parse_csv('examples/input1.csv')
@@ -23,10 +24,14 @@ class TestParseHours:
       output = parse_hours('Mon-Wed 5 pm - 12:30 am  / Thu-Fri 5 pm - 1:30 am  / Sat 3 pm - 1:30 am  / Sun 3 pm - 11:30 pm')
       assert output == output_parse_hours_one_day_sections
 
+  def test_parse_hours_extra_day(self):
+      output = parse_hours('Tues-Fri, Sun 11:30 am - 10 pm  / Sat 5:30 pm - 11 pm / Mon 5:30 pm - 11 pm')
+      assert output == output_parse_hours_extra_day
+
 class TestDaysBetween:
   def test_days_between_mon_and_fri(self):
       output = days_between('Mon', 'Fri')
-      assert output == ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+      assert output == ['Mon', 'Tues', 'Wed', 'Thu', 'Fri']
 
   def test_days_between_fri_and_mon(self):
       output = days_between('Fri', 'Mon')
