@@ -4,7 +4,16 @@ import dateparser
 day_order = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 def parse_hours(string):
-    open_times = default_open_times()
+    open_times = {}
+    sections = string.split(' / ')
+    for section in sections:
+      affected_days = get_affected_days_and_open_times(section)
+      for key, value in affected_days.items():
+          open_times[key] = value
+    return open_times
+
+def get_affected_days_and_open_times(string):
+    open_times = {}
     first_day = string[:3]
     if string[3:4] == '-':
         second_day = string[4:7]
@@ -32,15 +41,6 @@ def parse_times(hours):
         'open': open_hour,
         'close': close_hour,
     }
-
-def default_open_times():
-    days = {}
-    for day in day_order:
-        days[day] = {
-            'open': 0,
-            'close': 0,
-        }
-    return days
 
 def get_time(string):
     time = dateparser.parse(string)
