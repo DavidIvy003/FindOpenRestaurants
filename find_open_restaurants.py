@@ -24,6 +24,7 @@ def get_affected_days_and_open_times(string):
             open_times[day] = open_and_close_times
     else:
         time = string[4:]
+        open_times[first_day] = parse_times(time)
     return open_times
 
 def days_between(first_day, second_day):
