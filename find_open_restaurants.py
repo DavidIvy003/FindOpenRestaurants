@@ -75,3 +75,49 @@ def get_open_and_close_times(string):
 def get_time(string):
     time = dateparser.parse(string)
     return int(time.time().strftime('%H%M'))
+
+def get_open_restaurants_at_timestamp(restaurant_hours, timestamp):
+    time = int(timestamp.time().strftime('%H%M'))
+    weekday = day_order[timestamp.weekday()]
+
+    open_restaurants = []
+
+    for restaurant in restaurant_hours:
+        if is_restaurant_open(restaurant['Hours'], weekday, time):
+            open_restaurants.append(restaurant['Restaurant Name'])
+
+    return open_restaurants
+
+def is_restaurant_open(restaurant_hours, weekday, time):
+    if weekday not in restaurant_hours:
+        return False
+
+    hours = restaurant_hours[weekday]
+
+    open_time = hours['open']
+    close_time = hours['close']
+
+    if close_time > open_time:
+        # Example: 11 am - 5 pm
+        return (time >= open_time and time < close_time)
+
+    if time >= open_time:
+        # Example: 11 am - 1:30 am, current time = 5pm
+        return True
+
+    # Example: 11 am - 1:30 am, current time = 2am, look at previous days close hours
+    return check_previous_days_hours(restaurant_hours, weekday, time)
+
+def get_previous_days_hours(restaurant_hours, weekday):
+    weekday_index = day_order.index(weekday)
+    previous_weekday_index = weekday_index - 1 if weekday_index - 1 > 0 else 6
+    return restaurant_hours[day_order[previous_weekday_index]]
+
+def check_previous_days_hours(restaurant_hours, weekday, time):
+    previous_days_hours = get_previous_days_hours(restaurant_hours, weekday)
+    close_time = previous_days_hours['close']
+    open_time = previous_days_hours['open']
+    if close_time > open_time:
+        # Edge case where previous days hours don't overlap midnight, Example: 11 am - 5 pm
+        return False
+    return time < close_time

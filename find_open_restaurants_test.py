@@ -1,17 +1,42 @@
 import pytest
+from datetime import datetime
 
-from find_open_restaurants import parse_csv, parse_hours, get_open_and_close_times, days_between
+from find_open_restaurants import parse_csv, parse_hours, get_open_and_close_times, days_between, is_restaurant_open, get_open_restaurants_at_timestamp
 from test_support.output_parse_hours_days import output_parse_hours_days
 from test_support.output_parse_hours_two_hours_sections import output_parse_hours_two_hours_sections
 from test_support.output_parse_hours_one_day_sections import output_parse_hours_one_day_sections
 from test_support.output_parse_hours_extra_day import output_parse_hours_extra_day
 from test_support.output_parse_hours_closed_days import output_parse_hours_closed_days
 from test_support.output_parse_hours_extra_day_first import output_parse_hours_extra_day_first
+from test_support.restuarants_open_close_hours import restuarants_open_close_hours
+
+all_restuarants = list( restuarant['Restaurant Name'] for restuarant in restuarants_open_close_hours )
 
 def test_parse_csv():
     output = parse_csv('examples/input1.csv')
     assert output[0]['Restaurant Name'] == 'The Cowfish Sushi Burger Bar'
     assert output[0]['Hours'] == output_parse_hours_days
+
+class TestGetOpenRestaurantsAtTimestamp:
+    def test_tuesday_afternoon(self):
+        output = get_open_restaurants_at_timestamp(restuarants_open_close_hours, datetime(2019, 8, 27, 12, 30)) # Tuesday 12:30pm
+        assert len(output) == 36
+
+    def test_sunday_evening(self):
+        output = get_open_restaurants_at_timestamp(restuarants_open_close_hours, datetime(2019, 9, 1, 17, 30)) # Sunday 5:30pm
+        assert len(set(all_restuarants) - set(output) - set(['Char Grill', 'Top of the Hill', 'Jose and Sons'])) == 0
+
+    def test_wednesday_early_am(self):
+        output = get_open_restaurants_at_timestamp(restuarants_open_close_hours, datetime(2019, 8, 28, 3, 30)) # Wedneday 3:30am
+        assert output == ['Seoul 116']
+
+    def test_friday_early_am(self):
+        output = get_open_restaurants_at_timestamp(restuarants_open_close_hours, datetime(2019, 8, 30, 1, 0)) # Friday 1:00am
+        assert output == ['Bonchon', 'Seoul 116']
+
+    def test_saturday_early_am(self):
+        output = get_open_restaurants_at_timestamp(restuarants_open_close_hours, datetime(2019, 8, 31, 0, 0)) # Saturday 12:00am
+        assert output == ['The Cheesecake Factory', 'Bonchon', 'Seoul 116']
 
 class TestParseHours:
     def test_parse_hours_across_multiple_days(self):
@@ -54,3 +79,25 @@ class TestOpenAndCloseTimes:
             'open': 1100,
             'close': 2200,
         }
+
+class TestIsRestaurantOpen:
+    def test_before_midnight(self):
+        assert is_restaurant_open(output_parse_hours_days, 'Mon', 1100) == True
+        assert is_restaurant_open(output_parse_hours_days, 'Mon', 1000) == False
+        assert is_restaurant_open(output_parse_hours_days, 'Mon', 2100) == True
+        assert is_restaurant_open(output_parse_hours_days, 'Mon', 2200) == False
+
+    def test_after_midnight(self):
+        assert is_restaurant_open(output_parse_hours_one_day_sections, 'Fri', 100) == True
+        assert is_restaurant_open(output_parse_hours_one_day_sections, 'Fri', 200) == False
+        assert is_restaurant_open(output_parse_hours_one_day_sections, 'Fri', 0) == True
+        assert is_restaurant_open(output_parse_hours_one_day_sections, 'Fri', 1600) == False
+        assert is_restaurant_open(output_parse_hours_one_day_sections, 'Fri', 1700) == True
+        assert is_restaurant_open(output_parse_hours_one_day_sections, 'Fri', 2300) == True
+
+        assert is_restaurant_open(output_parse_hours_one_day_sections, 'Thu', 100) == False
+        assert is_restaurant_open(output_parse_hours_one_day_sections, 'Thu', 0) == True
+        assert is_restaurant_open(output_parse_hours_one_day_sections, 'Thu', 30) == False
+
+    def test_close_days(self):
+        assert is_restaurant_open(output_parse_hours_closed_days, 'Sun', 1200) == False
