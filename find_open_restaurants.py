@@ -78,12 +78,15 @@ def get_open_and_close_times(string):
 
 def get_time(string):
     time = dateparser.parse(string)
-    return int(time.time().strftime('%H%M'))
+    return format_timestamp(time)
+
+def format_timestamp(timestamp):
+    return int(timestamp.time().strftime('%H%M'))
 
 ### Evalutate Open Restaurants ###
 
 def get_open_restaurants_at_timestamp(restaurant_hours, timestamp):
-    time = int(timestamp.time().strftime('%H%M'))
+    time = format_timestamp(timestamp)
     weekday = day_order[timestamp.weekday()]
 
     open_restaurants = []
