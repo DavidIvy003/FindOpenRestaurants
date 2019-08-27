@@ -1,4 +1,4 @@
-output_parse_hours_multiple_hours = {
+output_parse_hours_two_hours_sections = {
   'Mon': {
     'open': 1130,
     'close': 2200,
