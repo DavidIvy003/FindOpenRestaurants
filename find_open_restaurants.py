@@ -4,6 +4,24 @@ import dateparser
 
 day_order = ['Mon', 'Tues', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
+
+def find_open_restuarants():
+    parse_csv('examples/input1.csv')
+    print('Hello World')
+
+def parse_csv(filename):
+    input_data = []
+
+    with open(filename, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            input_data.append({
+              'Restaurant Name': row['Restaurant Name'],
+              'Hours': parse_hours(row['Hours'])
+            })
+
+    return input_data
+
 def parse_hours(string):
     open_times = {}
     sections = string.split(' / ')
@@ -55,19 +73,5 @@ def get_open_and_close_times(string):
 def get_time(string):
     time = dateparser.parse(string)
     return int(time.time().strftime('%H%M'))
-
-def find_open_restuarants():
-    parse_csv('examples/input1.csv')
-    print('Hello World')
-
-def parse_csv(filename):
-    input_data = []
-
-    with open(filename, newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            input_data.append(row)
-
-    return input_data
 
 find_open_restuarants()

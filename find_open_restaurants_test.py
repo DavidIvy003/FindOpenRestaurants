@@ -10,7 +10,7 @@ from test_support.output_parse_hours_closed_days import output_parse_hours_close
 def test_parse_csv():
     output = parse_csv('examples/input1.csv')
     assert output[0]['Restaurant Name'] == 'The Cowfish Sushi Burger Bar'
-    assert output[0]['Hours'] == 'Mon-Sun 11:00 am - 10 pm'
+    assert output[0]['Hours'] == output_parse_hours_days
 
 class TestParseHours:
   def test_parse_hours_across_multiple_days(self):
