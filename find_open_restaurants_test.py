@@ -1,6 +1,6 @@
 import pytest
 
-from find_open_restaurants import parse_csv, parse_hours, parse_times, days_between
+from find_open_restaurants import parse_csv, parse_hours, get_open_and_close_times, days_between
 from test_support.output_parse_hours_days import output_parse_hours_days
 from test_support.output_parse_hours_two_hours_sections import output_parse_hours_two_hours_sections
 from test_support.output_parse_hours_one_day_sections import output_parse_hours_one_day_sections
@@ -42,9 +42,9 @@ class TestDaysBetween:
       output = days_between('Fri', 'Mon')
       assert output == ['Mon', 'Fri', 'Sat', 'Sun']
 
-class TestParseTimes:
+class TestOpenAndCloseTimes:
   def test_parse_times(self):
-      output = parse_times('11:00 am - 10 pm')
+      output = get_open_and_close_times('Tues-Fri 11:00 am - 10 pm')
       assert output == {
           'open': 1100,
           'close': 2200,

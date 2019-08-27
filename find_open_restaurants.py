@@ -9,7 +9,7 @@ def parse_hours(string):
     sections = string.split(' / ')
     for section in sections:
       affected_days = get_affected_days(section)
-      time = parse_times(get_time_from_hours_string(section))
+      time = get_open_and_close_times(section)
 
       for day in affected_days:
           open_times[day] = time
@@ -43,7 +43,8 @@ def days_between(first_day, second_day):
     else:
         return day_order[:second_day_index + 1] + day_order[first_day_index:]
 
-def parse_times(hours):
+def get_open_and_close_times(string):
+    hours = get_time_from_hours_string(string)
     open_hour = get_time(hours.split('-')[0])
     close_hour = get_time(hours.split('-')[1])
     return {
