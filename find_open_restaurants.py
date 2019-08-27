@@ -5,8 +5,9 @@ import dateparser
 day_order = ['Mon', 'Tues', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 
-def find_open_restaurants(filename, datetime):
+def find_open_restaurants(filename, timestamp):
     restaurant_hours = parse_csv(filename)
+    return get_open_restaurants_at_timestamp(restaurant_hours, timestamp)
 
 def parse_csv(filename):
     input_data = []

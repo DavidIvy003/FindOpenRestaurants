@@ -1,7 +1,7 @@
 import pytest
 from datetime import datetime
 
-from find_open_restaurants import parse_csv, parse_hours, get_open_and_close_times, days_between, is_restaurant_open, get_open_restaurants_at_timestamp
+from find_open_restaurants import find_open_restaurants, parse_csv, parse_hours, get_open_and_close_times, days_between, is_restaurant_open, get_open_restaurants_at_timestamp
 from test_support.output_parse_hours_days import output_parse_hours_days
 from test_support.output_parse_hours_two_hours_sections import output_parse_hours_two_hours_sections
 from test_support.output_parse_hours_one_day_sections import output_parse_hours_one_day_sections
@@ -11,6 +11,11 @@ from test_support.output_parse_hours_extra_day_first import output_parse_hours_e
 from test_support.restuarants_open_close_hours import restuarants_open_close_hours
 
 all_restuarants = list( restuarant['Restaurant Name'] for restuarant in restuarants_open_close_hours )
+
+
+def test_find_open_restaurants():
+    output = find_open_restaurants('examples/input1.csv', datetime(2019, 8, 27, 12, 30))
+    assert len(output) == 36
 
 def test_parse_csv():
     output = parse_csv('examples/input1.csv')
