@@ -8,7 +8,6 @@ def test_parse_csv():
     assert output[0]['Restaurant Name'] == 'The Cowfish Sushi Burger Bar'
     assert output[0]['Hours'] == 'Mon-Sun 11:00 am - 10 pm'
 
-@pytest.mark.skip(reason="Not passing yet")
 def test_parse_hours_days():
     output = parse_hours('Mon-Sun 11:00 am - 10 pm')
     assert output == output_parse_hours_days

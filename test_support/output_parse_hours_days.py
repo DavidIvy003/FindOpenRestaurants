@@ -1,30 +1,30 @@
 output_parse_hours_days = {
   'Mon': {
-    'open': 11,
-    'close': 22,
+    'open': 1100,
+    'close': 2200,
   },
   'Tue': {
-    'open': 11,
-    'close': 22,
+    'open': 1100,
+    'close': 2200,
   },
   'Wed': {
-    'open': 11,
-    'close': 22,
+    'open': 1100,
+    'close': 2200,
   },
   'Thu': {
-    'open': 11,
-    'close': 22,
+    'open': 1100,
+    'close': 2200,
   },
   'Fri': {
-    'open': 11,
-    'close': 22,
+    'open': 1100,
+    'close': 2200,
   },
   'Sat': {
-    'open': 11,
-    'close': 22,
+    'open': 1100,
+    'close': 2200,
   },
   'Sun': {
-    'open': 11,
-    'close': 22,
+    'open': 1100,
+    'close': 2200,
   }
 }

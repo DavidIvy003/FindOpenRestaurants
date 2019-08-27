@@ -4,13 +4,18 @@ import dateparser
 day_order = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 def parse_hours(string):
+    open_times = default_open_times()
     first_day = string[:3]
     if string[3:4] == '-':
         second_day = string[4:7]
         time = string[8:]
+        days = days_between(first_day, second_day)
+        open_and_close_times = parse_times(time)
+        for day in days:
+            open_times[day] = open_and_close_times
     else:
         time = string[4:]
-    return string
+    return open_times
 
 def days_between(first_day, second_day):
     first_day_index = day_order.index(first_day)
