@@ -9,6 +9,8 @@ def find_open_restaurants(filename, timestamp):
     restaurant_hours = parse_csv(filename)
     return get_open_restaurants_at_timestamp(restaurant_hours, timestamp)
 
+### Parse Dataset ###
+
 def parse_csv(filename):
     input_data = []
 
@@ -25,6 +27,7 @@ def parse_csv(filename):
 def parse_hours(string):
     open_times = {}
     sections = string.split(' / ')
+
     for section in sections:
         affected_days = get_affected_days(section)
         time = get_open_and_close_times(section)
@@ -76,6 +79,8 @@ def get_open_and_close_times(string):
 def get_time(string):
     time = dateparser.parse(string)
     return int(time.time().strftime('%H%M'))
+
+### Evalutate Open Restaurants ###
 
 def get_open_restaurants_at_timestamp(restaurant_hours, timestamp):
     time = int(timestamp.time().strftime('%H%M'))
