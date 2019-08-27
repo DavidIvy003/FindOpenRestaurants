@@ -19,8 +19,7 @@ def test_find_open_restaurants():
 
 def test_parse_csv():
     output = parse_csv('examples/input1.csv')
-    assert output[0]['Restaurant Name'] == 'The Cowfish Sushi Burger Bar'
-    assert output[0]['Hours'] == output_parse_hours_days
+    assert output == restuarants_open_close_hours
 
 class TestGetOpenRestaurantsAtTimestamp:
     def test_tuesday_afternoon(self):
