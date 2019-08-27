@@ -5,6 +5,7 @@ from test_support.output_parse_hours_days import output_parse_hours_days
 from test_support.output_parse_hours_two_hours_sections import output_parse_hours_two_hours_sections
 from test_support.output_parse_hours_one_day_sections import output_parse_hours_one_day_sections
 from test_support.output_parse_hours_extra_day import output_parse_hours_extra_day
+from test_support.output_parse_hours_closed_days import output_parse_hours_closed_days
 
 def test_parse_csv():
     output = parse_csv('examples/input1.csv')
@@ -27,6 +28,10 @@ class TestParseHours:
   def test_parse_hours_extra_day(self):
       output = parse_hours('Tues-Fri, Sun 11:30 am - 10 pm  / Sat 5:30 pm - 11 pm / Mon 5:30 pm - 11 pm')
       assert output == output_parse_hours_extra_day
+
+  def test_parse_hours_closed_days(self):
+      output = parse_hours('Mon-Sat 11 am - 11 pm')
+      assert output == output_parse_hours_closed_days
 
 class TestDaysBetween:
   def test_days_between_mon_and_fri(self):
