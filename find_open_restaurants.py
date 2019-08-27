@@ -1,12 +1,13 @@
 import csv
 
 def find_open_restuarants():
+    parse_csv('examples/input1.csv')
     print('Hello World')
 
-def parse_csv():
+def parse_csv(filename):
     input_data = []
 
-    with open('examples/input1.csv', newline='') as csvfile:
+    with open(filename, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             input_data.append(row)
