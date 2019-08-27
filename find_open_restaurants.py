@@ -8,29 +8,32 @@ def parse_hours(string):
     open_times = {}
     sections = string.split(' / ')
     for section in sections:
-      affected_days = get_affected_days_and_open_times(section)
-      for key, value in affected_days.items():
-          open_times[key] = value
+      affected_days = get_affected_days(section)
+      time = parse_times(get_time_from_hours_string(section))
+
+      for day in affected_days:
+          open_times[day] = time
+
     return open_times
 
-def get_affected_days_and_open_times(string):
-    open_times = {}
+def get_affected_days(string):
     split_string = re.split(r'\W+', string)
     first_day = split_string[0]
+
     if split_string[1] in day_order:
         second_day = split_string[1]
-        time = string[string.index(second_day) + len(second_day):]
         days = days_between(first_day, second_day)
+
         if split_string[2] in day_order:
             days.append(split_string[2])
-            time = string[string.index(split_string[2]) + len(split_string[2]):]
-        open_and_close_times = parse_times(time)
-        for day in days:
-            open_times[day] = open_and_close_times
+
+        return days
     else:
-        time = string[4:]
-        open_times[first_day] = parse_times(time)
-    return open_times
+        return [first_day]
+
+def get_time_from_hours_string(string):
+    match = re.search(r'([0-9]+).*$', string)
+    return match.group()
 
 def days_between(first_day, second_day):
     first_day_index = day_order.index(first_day)
