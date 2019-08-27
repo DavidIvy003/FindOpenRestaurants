@@ -5,9 +5,8 @@ import dateparser
 day_order = ['Mon', 'Tues', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 
-def find_open_restuarants():
-    parse_csv('examples/input1.csv')
-    print('Hello World')
+def find_open_restaurants(filename, datetime):
+    restaurant_hours = parse_csv(filename)
 
 def parse_csv(filename):
     input_data = []
@@ -35,19 +34,22 @@ def parse_hours(string):
     return open_times
 
 def get_affected_days(string):
-    split_string = re.split(r'\W+', string)
-    first_day = split_string[0]
+    match = re.search(r'^(\D)*', string)
+    sections = match.group().split(',')
 
-    if split_string[1] in day_order:
-        second_day = split_string[1]
-        days = days_between(first_day, second_day)
+    days = []
 
-        if split_string[2] in day_order:
-            days.append(split_string[2])
+    for section in sections:
+        split_string = re.split(r'\W+', section.strip())
+        first_day = split_string[0]
 
-        return days
-    else:
-        return [first_day]
+        if len(split_string) > 1:
+            second_day = split_string[1]
+            days += days_between(first_day, second_day)
+        else:
+            days.append(first_day)
+
+    return days
 
 def get_time_from_hours_string(string):
     match = re.search(r'([0-9]+).*$', string)
@@ -73,5 +75,3 @@ def get_open_and_close_times(string):
 def get_time(string):
     time = dateparser.parse(string)
     return int(time.time().strftime('%H%M'))
-
-find_open_restuarants()
