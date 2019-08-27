@@ -8,9 +8,9 @@ from test_support.output_parse_hours_one_day_sections import output_parse_hours_
 from test_support.output_parse_hours_extra_day import output_parse_hours_extra_day
 from test_support.output_parse_hours_closed_days import output_parse_hours_closed_days
 from test_support.output_parse_hours_extra_day_first import output_parse_hours_extra_day_first
-from test_support.restuarants_open_close_hours import restuarants_open_close_hours
+from test_support.restaurants_open_close_hours import restaurants_open_close_hours
 
-all_restuarants = list( restuarant['Restaurant Name'] for restuarant in restuarants_open_close_hours )
+all_restaurants = list( restaurant['Restaurant Name'] for restaurant in restaurants_open_close_hours )
 
 
 def test_find_open_restaurants():
@@ -19,27 +19,27 @@ def test_find_open_restaurants():
 
 def test_parse_csv():
     output = parse_csv('examples/input1.csv')
-    assert output == restuarants_open_close_hours
+    assert output == restaurants_open_close_hours
 
 class TestGetOpenRestaurantsAtTimestamp:
     def test_tuesday_afternoon(self):
-        output = get_open_restaurants_at_timestamp(restuarants_open_close_hours, datetime(2019, 8, 27, 12, 30)) # Tuesday 12:30pm
+        output = get_open_restaurants_at_timestamp(restaurants_open_close_hours, datetime(2019, 8, 27, 12, 30)) # Tuesday 12:30pm
         assert len(output) == 36
 
     def test_sunday_evening(self):
-        output = get_open_restaurants_at_timestamp(restuarants_open_close_hours, datetime(2019, 9, 1, 17, 30)) # Sunday 5:30pm
-        assert len(set(all_restuarants) - set(output) - set(['Char Grill', 'Top of the Hill', 'Jose and Sons'])) == 0
+        output = get_open_restaurants_at_timestamp(restaurants_open_close_hours, datetime(2019, 9, 1, 17, 30)) # Sunday 5:30pm
+        assert len(set(all_restaurants) - set(output) - set(['Char Grill', 'Top of the Hill', 'Jose and Sons'])) == 0
 
     def test_wednesday_early_am(self):
-        output = get_open_restaurants_at_timestamp(restuarants_open_close_hours, datetime(2019, 8, 28, 3, 30)) # Wedneday 3:30am
+        output = get_open_restaurants_at_timestamp(restaurants_open_close_hours, datetime(2019, 8, 28, 3, 30)) # Wedneday 3:30am
         assert output == ['Seoul 116']
 
     def test_friday_early_am(self):
-        output = get_open_restaurants_at_timestamp(restuarants_open_close_hours, datetime(2019, 8, 30, 1, 0)) # Friday 1:00am
+        output = get_open_restaurants_at_timestamp(restaurants_open_close_hours, datetime(2019, 8, 30, 1, 0)) # Friday 1:00am
         assert output == ['Bonchon', 'Seoul 116']
 
     def test_saturday_early_am(self):
-        output = get_open_restaurants_at_timestamp(restuarants_open_close_hours, datetime(2019, 8, 31, 0, 0)) # Saturday 12:00am
+        output = get_open_restaurants_at_timestamp(restaurants_open_close_hours, datetime(2019, 8, 31, 0, 0)) # Saturday 12:00am
         assert output == ['The Cheesecake Factory', 'Bonchon', 'Seoul 116']
 
 class TestParseHours:

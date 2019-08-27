@@ -1,4 +1,4 @@
-restuarants_open_close_hours = [
+restaurants_open_close_hours = [
     {
         "Restaurant Name": "The Cowfish Sushi Burger Bar",
         "Hours": {
