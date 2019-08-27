@@ -25,11 +25,11 @@ def parse_hours(string):
     open_times = {}
     sections = string.split(' / ')
     for section in sections:
-      affected_days = get_affected_days(section)
-      time = get_open_and_close_times(section)
+        affected_days = get_affected_days(section)
+        time = get_open_and_close_times(section)
 
-      for day in affected_days:
-          open_times[day] = time
+        for day in affected_days:
+            open_times[day] = time
 
     return open_times
 
